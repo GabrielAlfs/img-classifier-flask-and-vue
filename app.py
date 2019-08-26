@@ -8,7 +8,7 @@ from keras.preprocessing import image
 from keras.applications.resnet50 import ResNet50
 from werkzeug.utils import secure_filename
 app = Flask(__name__)
-CORS(app)
+CORS(app, resources={r"/*": {"origins": "*"}})
 
 MODEL_PATH = 'models/your_model.h5'
 
@@ -53,4 +53,4 @@ def upload():
   return None
 
 if __name__ == '__main__':
-  app.run()
+  app.run(debug = False, threaded = False)
