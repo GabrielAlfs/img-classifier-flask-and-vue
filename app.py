@@ -7,7 +7,6 @@ from keras.models import load_model
 from keras.preprocessing import image
 from keras.applications.resnet50 import ResNet50
 from werkzeug.utils import secure_filename
-from gevent.pywsgi import WSGIServer
 app = Flask(__name__)
 CORS(app)
 
@@ -54,6 +53,4 @@ def upload():
   return None
 
 if __name__ == '__main__':
-  print('Starting server on 127.0.0.1:5000')
-  http_server = WSGIServer(('0.0.0.0', 5000), app)
-  http_server.serve_forever()
+  app.run()
