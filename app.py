@@ -1,6 +1,7 @@
 import os
 import numpy as np
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 from keras.applications.imagenet_utils import preprocess_input, decode_predictions
 from keras.models import load_model
 from keras.preprocessing import image
@@ -8,6 +9,7 @@ from keras.applications.resnet50 import ResNet50
 from werkzeug.utils import secure_filename
 from gevent.pywsgi import WSGIServer
 app = Flask(__name__)
+CORS(app)
 
 MODEL_PATH = 'models/your_model.h5'
 
@@ -34,20 +36,21 @@ def upload():
     f.save(file_path)
     preds = model_predict(file_path, model)
     pred_class = decode_predictions(preds)
-    predictions = [
-      str(pred_class[0][0][1]),
-      str(pred_class[0][1][1]),
-      str(pred_class[0][2][1])
+    result = [
+      [
+        str(pred_class[0][0][1]), 
+        float(pred_class[0][0][2])
+      ],
+      [
+        str(pred_class[0][1][1]), 
+        float(pred_class[0][1][2])
+      ],
+      [
+        str(pred_class[0][2][1]), 
+        float(pred_class[0][2][2])
+      ],
     ]
-    confidence_levels = [
-      float(pred_class[0][0][2]),
-      float(pred_class[0][1][2]),
-      float(pred_class[0][2][2]),
-    ]
-    return jsonify(
-      predictions=predictions,
-      confidence_levels=confidence_levels
-    )
+    return jsonify(result)
   return None
 
 if __name__ == '__main__':
