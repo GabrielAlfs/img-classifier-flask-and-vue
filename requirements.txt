@@ -24,7 +24,7 @@ lazy-object-proxy==1.4.2
 Markdown==3.1.1
 MarkupSafe==1.1.1
 mccabe==0.6.1
-numpy==1.17.0
+numpy==1.22.0
 Pillow==6.2.0
 protobuf==3.9.1
 pycparser==2.19
